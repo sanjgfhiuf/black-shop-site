@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Black Shop | بلک شاپ</title>
+  <style>
+    /* Reset و تنظیمات پایه */
+    body, html {
+      margin: 0; padding: 0; height: 100%;
+      font-family: "Tahoma", sans-serif;
+      background: url('https://i.imgur.com/VlzqAis.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      direction: rtl;
+    }
+    /* لایه پشت متن‌ها */
+    .overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0,0,0,0.75);
+      z-index: 0;
+    }
+    /* محتوای اصلی */
+    .content {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      margin: auto;
+      padding: 20px;
+    }
+    header {
+      background-color: #000;
+      padding: 15px;
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      border-bottom: 2px solid #fff;
+    }
+    /* منوی همبرگری */
+    .menu-toggle {
+      background-color: #111;
+      color: #fff;
+      padding: 12px 20px;
+      cursor: pointer;
+      font-size: 20px;
+      user-select: none;
+      border: none;
+      width: 100%;
+      text-align: right;
+      box-sizing: border-box;
+      border-bottom: 1px solid #333;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    nav {
+      background-color: #111;
+      display: none;
+      flex-direction: column;
+      margin-bottom: 20px;
+    }
+    nav a {
+      color: #ddd;
+      padding: 15px 20px;
+      border-bottom: 1px solid #333;
+      text-decoration: none;
+      font-size: 18px;
+      transition: background-color 0.3s ease;
+    }
+    nav a:hover {
+      background-color: #222;
+      color: #f90;
+    }
+    section {
+      background-color: rgba(0,0,0,0.65);
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      box-shadow: 0 0 12px rgba(255,153,0,0.6);
+    }
+    h2 {
+      border-bottom: 2px solid #f90;
+      padding-bottom: 8px;
+      margin-top: 0;
+      color: #f90;
+    }
+    p {
+      line-height: 1.6;
+      font-size: 16px;
+    }
+    /* کارت‌ها */
+    .card {
+      background-color: #222;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      box-shadow: 0 0 8px rgba(255, 153, 0, 0.3);
+      cursor: default;
+    }
+    /* تصاویر اکانت */
+    .account-images {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+    .account-images img {
+      max-width: 180px;
+      border-radius: 10px;
+      border: 2px solid #f90;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .account-images img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px #f90;
+    }
+    /* بخش نظرات */
+    #comments .card {
+      cursor: auto;
+    }
+    textarea {
+      width: 100%;
+      height: 90px;
+      resize: vertical;
+      border-radius: 6px;
+      border: 1px solid #555;
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+      background-color: #111;
+      color: #eee;
+    }
+    button.submit-comment {
+      margin-top: 10px;
+      padding: 10px 18px;
+      background-color: #f90;
+      color: #111;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+    button.submit-comment:hover {
+      background-color: #e68000;
+    }
+    /* شماره کارت مخفی و نمایان */
+    #card-info {
+      display: none;
+      background: #111;
+      padding: 15px;
+      border-radius: 8px;
+      margin-top: 15px;
+      border: 2px solid #f90;
+      line-height: 1.5;
+      font-size: 16px;
+    }
+    /* شماره کارت نمایش داده شده */
+    #card-info.show {
+      display: block;
+    }
+    /* اعتبار بخشی */
+    footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+      border-top: 1px solid #333;
+      color: #bbb;
+    }
+    footer a {
+      color: #f90;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    /* لینک‌ها در فوتر */
+    .footer-contacts {
+      margin-top: 6px;
+    }
+    /* صفحه اصلی */
+    #welcome {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      text-align: center;
+      color: #f90;
+    }
+    /* بخش توضیحات سیپی و اعتماد */
+    #info p {
+      margin-bottom: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+
+  <div class="content">
+    <header>Black Shop | بلک شاپ</header>
+
+    <button class="menu-toggle" onclick="toggleMenu()">☰ منو</button>
+    <nav id="menu">
+      <a href="#" onclick="showSection('info')">صفحه اصلی</a>
+      <a href="#" onclick="showSection('cp')">خرید سیپی</a>
+      <a href="#" onclick="showSection('acc')">خرید اکانت</a>
+      <a href="#" onclick="showSection('support')">پشتیبانی</a>
+      <a href="#comments">نظرات کاربران</a>
+    </nav>
+
+    <section id="welcome">
+      خوش آمدید به بلک شاپ؛ معتبرترین فروشگاه سیپی کالاف دیوتی موبایل
+    </section>
+
+    <section id="info">
+      <p><strong>سیپی چیست؟</strong> سیپی واحد پول داخل بازی کالاف دیوتی موبایل است که با آن می‌توانید آیتم‌ها، اسکین‌ها و بتل‌پس بخرید.</p>
+      <p><strong>اسکین چیست؟</strong> اسکین ظاهر و طراحی شخصیت یا سلاح شما در بازی است که جذابیت بازی را افزایش می‌دهد.</p>
+      <p><strong>آیا می‌شود به سایت اعتماد کرد؟</strong> بله، بلک شاپ با پشتیبانی سریع و تحویل فوری سیپی، معتبرترین فروشگاه است.</p>
+      <p><strong>مهم:</strong> قبل از خرید سیپی یا اکانت حتماً با شماره‌های زیر تماس بگیرید یا در تلگرام/روبیکا پیام دهید.</p>
+    </section>
+
+    <section id="cp" style="display:none;">
+      <h2>💰 لیست قیمت سیپی</h2>
+      <div class="card" onclick="showCardInfo()">۸۰ سیپی - ۸۵,۰۰۰ تومان</div>
+      <div class="card" onclick="showCardInfo()">۲۰۰ سیپی - ۱۲۰,۰۰۰ تومان</div>
+      <div class="card" onclick="showCardInfo()">۳۰۰ سیپی - ۲۲۰,۰۰۰ تومان</div>
+      <div class="card" onclick="showCardInfo()">۵۰۰ سیپی - ۳۴۰,۰۰۰ تومان</div>
+      <div class="card" onclick="showCardInfo()">۱,۰۰۰ سیپی - ۶۵۰,۰۰۰ تومان</div>
+      <div class="card" onclick="showCardInfo()">۲,۴۰۰ سیپی - ۱,۴۵۰,۰۰۰ تومان</div>
+      <div class="card" onclick="showCardInfo()">۵,۰۰۰ سیپی - ۲,۹۰۰,۰۰۰ تومان</div>
+      <div id="card-info">
+        <p>💳🌹تـنهــا شمـاره کـارتــ بلک شاپ🌹💳</p>
+        <p>[ 6037 9975 3903 6450 ]</p>
+        <p>💎بـه اســـم: شجاعی💎</p>
+        <p>🍁پـیـامـک فـعـال هسـت🍁</p>
+        <p>🍃از رسیـد جعـلی خـود خوداری کنـیـد🍃</p>
+        <p>💸مبلــغ طـی شـده رو زدی بشات تو تلگرام یا روبیکا و تماس بگیر لطفا💸</p>
+        <p>✅کـمـتـر بـزنـی کـنـسـل ✅</p>
+      </div>
+    </section>
+
+    <section id="acc" style="display:none;">
+      <h2>🕹 خرید اکانت کالاف</h2>
+      <div class="account-images">
+        <img src="https://uploadkon.ir/uploads/d9a503_25Screenshot-۲۰۲۵-۰۵-۲۵-۰۲-۴۵-۰۶-۶۰۵-com-activision-callofduty-shooter.jpg" alt="اکانت ۱" />
+        <img src="https://uploadkon.ir/uploads/4f5f03_25Screenshot-۲۰۲۵-۰۵-۱۷-۱۲-۱۲-۰۴-۴۱۰-com-activision-callofduty-shooter.jpg" alt="اکانت ۲" />
+        <img src="https://uploadkon.ir/uploads/32ba03_25Screenshot-۲۰۲۵-۰۵-۲۸-۰۰-۲۹-۱۲-۳۱۰-com-activision-callofduty-shooter.jpg" alt="اکانت ۳" />
+        <img src="https://uploadkon.ir/uploads/3cd603_25Screenshot-۲۰۲۵-۰۵-۳۱-۱۱-۰۲-۲۱-۰۱۹-com-activision-callofduty-shooter.jpg" alt="اکانت ۴" />
+      </div>
+      <p style="margin-top:12px;">برای توضیحات بیشتر و سفارش اکانت، لطفا به روبیکا و تلگرام زیر مراجعه کنید.</p>
+      <p>روبیکا: <a href="https://rubika.ir/Zonics_Vasth" target="_blank" style="color:#f90;">@Zonics_Vasth</a></p>
+      <p>تلگرام: <a href="https://t.me/Zonex_12" target="_blank" style="color:#f90;">@Zonex_12</a></p>
+    </section>
+
+    <section id="support" style="display:none;">
+      <h2>📞 پشتیبانی</h2>
+      <p>شماره تماس: 09170317445</p>
+      <p>روبیکا: <a href="https://rubika.ir/Zonics_Vasth" target="_blank" style="color:#f90;">@Zonics_Vasth</a></p>
+      <p>تلگرام: <a href="https://t.me/Zonex_12" target="_blank" style="color:#f90;">@Zonex_12</a></p>
+    </section>
+
+    <section id="comments">
+      <h2>💬 نظرات کاربران</h2>
+      <div id="comments-list">
+        <div class="card"><b>Ali1385:</b> خرید سریع و مطمئن بود، ممنون از بلک شاپ.</div>
+        <div class="card"><b>Sara_77:</b> پشتیبانی عالی و قیمت مناسب.</div>
+        <div class="card"><b>Hamed_r7:</b> اولین بار بود از این سایت خرید کردم، راضی بودم.</div>
+        <div class="card"><b>Parisa_d:</b> خیلی خوب و سریع تحویل دادن سیپی رو.</div>
+        <div class="card"><b>Reza_T:</b> پشتیبانی حرفه‌ای و پاسخگو.</div>
+        <div class="card"><b>NazaninX:</b> قیمت‌ها منصفانه و قابل اعتماد.</div>
+        <div class="card"><b>Mohammad_R:</b> سایت عالی، ممنونم.</div>
+        <div class="card"><b>Negar_S:</b> همیشه از بلک شاپ خرید می‌کنم.</div>
+        <div class="card"><b>Amin_89:</b> خدمات سریع و خوب.</div>
+        <div class="card"><b>Fatemeh_A:</b> ممنونم از سایت خوبتون.</div>
+        <div class="card"><b>Mahdi_M:</b> بهترین فروشگاه سیپی تا الان.</div>
+        <div class="card"><b>Shirin_V:</b> پشتیبانی عالی و سریع.</div>
+        <div class="card"><b>Navid_P:</b> قیمت‌ها عالی و خدمات خوب.</div>
+        <div class="card"><b>Elaheh_77:</b> خرید راحت و مطمئن.</div>
+        <div class="card"><b>Samir_B:</b> ممنون از تیم بلک شاپ.</div>
+      </div>
+      <textarea id="new-comment" placeholder="نظر خود را اینجا بنویسید..."></textarea>
+      <button class="submit-comment" onclick="addComment()">ارسال نظر</button>
+    </section>
+
+    <footer>
+      بلک شاپ © 2025 | 
+      تماس: 09170317445 | 
+      تلگرام: <a href="https://t.me/Zonex_12" target="_blank">Zonex_12@</a> | 
+      روبیکا: <a href="https://rubika.ir/Zonics_Vasth" target="_blank">@Zonics_Vasth</a>
+    </footer>
+  </div>
+
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById("menu");
+    if (menu.style.display === "flex") {
+      menu.style.display = "none";
+    } else {
+      menu.style.display = "flex";
+      menu.style.flexDirection = "column";
+    }
+  }
+  function showSection(id) {
+    const sections = ["welcome", "info", "cp", "acc", "support", "comments"];
+    sections.forEach(sec => {
+      const el = document.getElementById(sec);
+      if(el) el.style.display = (sec === id || (id === 'info' && sec === 'welcome')) ? "block" : "none";
+    });
+  }
+  function showCardInfo() {
+    const cardInfo = document.getElementById("card-info");
+    if(cardInfo.classList.contains("show")) {
+      cardInfo.classList.remove("show");
+    } else {
+      cardInfo.classList.add("show");
+      window.scrollTo({top: cardInfo.offsetTop, behavior: "smooth"});
+    }
+  }
+  function addComment() {
+    const textarea = document.getElementById("new-comment");
+    const commentText = textarea.value.trim();
+    if(commentText.length < 3) {
+      alert("لطفا نظر معتبری وارد کنید.");
+      return;
+    }
+    const commentsList = document.getElementById("comments-list");
+    const newComment = document.createElement("div");
+    newComment.classList.add("card");
+    const username = prompt("نام کاربری خود را وارد کنید:");
+    if(!username || username.trim().length < 2){
+      alert("نام کاربری معتبر وارد کنید.");
+      return;
+    }
+    newComment.innerHTML = `<b>${username.trim()}:</b> ${commentText}`;
+    commentsList.insertBefore(newComment, commentsList.firstChild);
+    textarea.value = "";
+  }
+</script>
+</body>
+                                      </html>
